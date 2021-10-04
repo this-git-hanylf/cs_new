@@ -51,7 +51,8 @@ const SignIn = (props) => {
       dispatch(
         authentication(true, (response) => {
           if (response.success && id == "test" && password == "123456") {
-            navigation.navigate("Profile");
+            // navigation.navigate("Home");
+            console.log("navigasi apasi ini", navigation);
           } else {
             setLoading(false);
           }
@@ -66,7 +67,10 @@ const SignIn = (props) => {
   });
 
   return (
-    <SafeAreaView style={BaseStyle.safeAreaView} edges={['right', 'top', 'left']}>
+    <SafeAreaView
+      style={BaseStyle.safeAreaView}
+      edges={["right", "top", "left"]}
+    >
       <Header
         title={t("sign_in")}
         renderLeft={() => {

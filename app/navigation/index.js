@@ -16,128 +16,95 @@ import { AllScreens, ModalScreens } from "./config";
 const RootStack = createStackNavigator();
 const MainStack = createStackNavigator();
 import { StackActions } from "@react-navigation/native";
+import { MainStackScreen } from "./config/MainStackScreen";
 
 const MainScreens = () => {
-    return (
-        <MainStack.Navigator
-            screenOptions={{
-                headerShown: false,
-               
-            }}
-        >
-            {Object.keys(AllScreens).map((name, index) => {
-                const { component, options } = AllScreens[name];
-                return (
-                    <MainStack.Screen
-                        key={name}
-                        name={name}
-                        component={component}
-                        options={options}
-                    />
-                );
-            })}
-        </MainStack.Navigator>
-    );
+  return (
+    <MainStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <MainStack.Screen
+        name="MainStack"
+        component={MainStackScreen}
+      ></MainStack.Screen>
+      {/* {Object.keys(AllScreens).map((name, index) => {
+        const { component, options } = AllScreens[name];
+        return (
+          <MainStack.Screen
+            key={name}
+            name={name}
+            component={component}
+            options={options}
+          />
+        );
+      })} */}
+    </MainStack.Navigator>
+  );
 };
 
 const Navigator = (props) => {
-    const { theme, colors } = useTheme();
-    const isDarkMode = useDarkMode();
-    const language = useSelector(languageSelect);
-    const { navigation } = props;
-    const dispatch = useDispatch();
-    const [loading, setLoading] = useState(true);
-    const navigationRef = useRef(null);
+  const { theme, colors } = useTheme();
+  const isDarkMode = useDarkMode();
+  const language = useSelector(languageSelect);
+  const { navigation } = props;
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
+  const navigationRef = useRef(null);
 
-    useEffect(() => {
-        // Hide screen loading
-        SplashScreen.hide();
+  useEffect(() => {
+    // Hide screen loading
+    SplashScreen.hide();
 
-        // Config status bar
-        if (Platform.OS == "android") {
-            StatusBar.setBackgroundColor(colors.primary, true);
-        }
-        StatusBar.setBarStyle(
-            isDarkMode ? "light-content" : "dark-content",
-            true
-        );
-        const onProcess = async () => {
-            // Get current language of device
-            const languageCode = language ?? BaseSetting.defaultLanguage;
-            dispatch(ApplicationActions.onChangeLanguage(languageCode));
-            // Config language for app
-            await i18n.use(initReactI18next).init({
-                resources: BaseSetting.resourcesLanguage,
-                lng: languageCode,
-                fallbackLng: languageCode,
-            });
-            setTimeout(() => {
-                Utils.enableExperimental();
-                setLoading(false);
-                navigationRef?.current?.dispatch(
-                    StackActions.replace("MaziHome")
-                );
-            }, 300);
-        };
-        onProcess();
-    }, []);
+    // Config status bar
+    if (Platform.OS == "android") {
+      StatusBar.setBackgroundColor(colors.primary, true);
+    }
+    StatusBar.setBarStyle(isDarkMode ? "light-content" : "dark-content", true);
+    const onProcess = async () => {
+      // Get current language of device
+      const languageCode = language ?? BaseSetting.defaultLanguage;
+      dispatch(ApplicationActions.onChangeLanguage(languageCode));
+      // Config language for app
+      await i18n.use(initReactI18next).init({
+        resources: BaseSetting.resourcesLanguage,
+        lng: languageCode,
+        fallbackLng: languageCode,
+      });
+      setTimeout(() => {
+        Utils.enableExperimental();
+        setLoading(false);
 
-    const goToApp = (name) => {
-        navigationRef?.current?.navigate(name);
+        //disini ditaro kayak usercontroller untuk validasi dan insert item ke storage
+        //contohnya ada di setiap sign in mobile
+
+        // navigationRef?.current?.dispatch(StackActions.("SignIn"));
+        //bisa kasih validasi disini, jika login apa dan tidak login apa
+      }, 300);
     };
+    onProcess();
+  }, []);
 
-    return (
-        <View style={{ flex: 1, position: "relative" }}>
-            <DarkModeProvider>
-                <NavigationContainer theme={theme} ref={navigationRef}>
-                    <RootStack.Navigator
-                        initialRouteName="Loading"
-                        screenOptions={{
-                            headerShown: false,
-                            cardStyle: { backgroundColor: "transparent" },
-                            cardOverlayEnabled: true,
-                            cardStyleInterpolator: ({
-                                current: { progress },
-                            }) => ({
-                                cardStyle: {
-                                    opacity: progress.interpolate({
-                                        inputRange: [0, 0.5, 0.9, 1],
-                                        outputRange: [0, 0.25, 0.7, 1],
-                                    }),
-                                },
-                                overlayStyle: {
-                                    opacity: progress.interpolate({
-                                        inputRange: [0, 1],
-                                        outputRange: [0, 0.5],
-                                        extrapolate: "clamp",
-                                    }),
-                                },
-                            }),
-                        }}
-                        mode="modal"
-                    >
-                        <RootStack.Screen
-                            name="MainScreens"
-                            component={MainScreens}
-                            options={{ headerShown: false }}
-                        />
-                        {Object.keys(ModalScreens).map((name, index) => {
-                            const { component, options } = ModalScreens[name];
-                            return (
-                                <RootStack.Screen
-                                    key={name}
-                                    name={name}
-                                    component={component}
-                                    options={options}
-                                />
-                            );
-                        })}
-                    </RootStack.Navigator>
-                </NavigationContainer>
-            </DarkModeProvider>
-            {!loading && <AssistiveTouch goToApp={goToApp} />}
-        </View>
-    );
+  return (
+    <View style={{ flex: 1, position: "relative" }}>
+      <DarkModeProvider>
+        <NavigationContainer theme={theme} ref={navigationRef}>
+          <MainStack.Navigator
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
+            {/* {!loading} */}
+            <MainStack.Screen
+              name="MainStack"
+              component={MainStackScreen}
+            ></MainStack.Screen>
+          </MainStack.Navigator>
+        </NavigationContainer>
+      </DarkModeProvider>
+    </View>
+  );
 };
 
 export default Navigator;

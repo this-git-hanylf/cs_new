@@ -6,23 +6,22 @@ import ModalScreens from "./modal";
 import FryptoScreens from "./crypto";
 
 const AllScreens = {
-    ...ShareScreens,
-    ...FinanceScreens,
-    ...NewsScreens,
-    ...ECommerceScreens,
-    ...FryptoScreens,
-}
+  ...ShareScreens,
+  ...FinanceScreens,
+  ...NewsScreens,
+  ...ECommerceScreens,
+  ...FryptoScreens,
+};
 
 export {
-    WalletTabScreens,
-    FryptoScreens,
-    FinanceScreens,
-    NewsScreens,
-    ECommerceScreens,
-    ShareScreens,
-    ModalScreens,
-    AllScreens,
-    NewsTabScreens,
-    ECommerceTabScreens
-}
-
+  WalletTabScreens,
+  FryptoScreens,
+  FinanceScreens,
+  NewsScreens,
+  ECommerceScreens,
+  ShareScreens,
+  ModalScreens,
+  AllScreens,
+  NewsTabScreens,
+  ECommerceTabScreens,
+};
