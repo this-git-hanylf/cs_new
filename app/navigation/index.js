@@ -15,8 +15,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { AllScreens, ModalScreens } from "./config";
 const RootStack = createStackNavigator();
 const MainStack = createStackNavigator();
+
 import { StackActions } from "@react-navigation/native";
-import { MainStackScreen } from "./config/MainStackScreen";
+import { MainStackScreen, MainTabScreen } from "./config/MainStackScreen";
 
 const MainScreens = () => {
   return (
@@ -98,7 +99,7 @@ const Navigator = (props) => {
             {/* {!loading} */}
             <MainStack.Screen
               name="MainStack"
-              component={MainStackScreen}
+              component={MainTabScreen}
             ></MainStack.Screen>
           </MainStack.Navigator>
         </NavigationContainer>

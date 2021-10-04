@@ -55,6 +55,7 @@ const Home = (props) => {
         <View style={{ paddingHorizontal: 20, paddingBottom: 10 }}>
           <Text header bold>
             {t("today")}
+            halo
           </Text>
           <Text subhead grayColor style={{ marginTop: 5 }}>
             {t("discover_last_news_today")}
@@ -125,8 +126,8 @@ const Home = (props) => {
                   loading={loading}
                   onPress={goPost(item)}
                   style={{
-                    marginBottom: 0,
-                    // index == topics.length - 1 ? 0 : 15,
+                    // marginBottom: 0,
+                    marginBottom: index == topics.length - 1 ? 0 : 15,
                   }}
                   image={item.image}
                   title={item.title}
