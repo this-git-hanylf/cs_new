@@ -30,7 +30,10 @@ export default function Setting({ navigation }) {
     : t("dynamic_system");
 
   return (
-    <SafeAreaView style={BaseStyle.safeAreaView} edges={['right', 'top', 'left']}>
+    <SafeAreaView
+      style={BaseStyle.safeAreaView}
+      edges={["right", "top", "left"]}
+    >
       <Header
         title={t("setting")}
         renderLeft={() => {

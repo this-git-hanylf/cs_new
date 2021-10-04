@@ -51,8 +51,9 @@ const SignIn = (props) => {
       dispatch(
         authentication(true, (response) => {
           if (response.success && id == "test" && password == "123456") {
-            // navigation.navigate("Home");
-            console.log("navigasi apasi ini", navigation);
+            navigation.navigate("Home");
+            // setLoading(false);
+            // console.log("navigasi apasi ini", navigation);
           } else {
             setLoading(false);
           }

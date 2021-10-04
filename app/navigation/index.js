@@ -15,9 +15,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { AllScreens, ModalScreens } from "./config";
 const RootStack = createStackNavigator();
 const MainStack = createStackNavigator();
+const AuthStack = createStackNavigator();
 
 import { StackActions } from "@react-navigation/native";
 import { MainStackScreen, MainTabScreen } from "./config/MainStackScreen";
+import { AuthStackScreen } from "./config/AuthStackScreen";
 
 const MainScreens = () => {
   return (
@@ -55,6 +57,7 @@ const Navigator = (props) => {
   const navigationRef = useRef(null);
 
   useEffect(() => {
+    console.log("navigation apanih", navigation);
     // Hide screen loading
     SplashScreen.hide();
 
@@ -96,7 +99,17 @@ const Navigator = (props) => {
               headerShown: false,
             }}
           >
-            {/* {!loading} */}
+            {/* {!loading ? (
+              <MainStack.Screen
+                name="MainStack"
+                component={MainTabScreen}
+              ></MainStack.Screen>
+            ) : (
+              <AuthStack.Screen
+                name="AuthStackScreen"
+                component={AuthStackScreen}
+              ></AuthStack.Screen>
+            )} */}
             <MainStack.Screen
               name="MainStack"
               component={MainTabScreen}

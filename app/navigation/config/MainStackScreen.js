@@ -9,6 +9,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import SignIn from "../../screens/SignIn";
 
 const MainStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -54,6 +55,8 @@ export const MainTabScreen = ({ navigation }) => (
 const MainStackScreen = ({ navigation }) => (
   <MainStack.Navigator headerMode="none">
     <MainStack.Screen name="Home" component={Home}></MainStack.Screen>
-    <MainStack.Screen name="Profile" component={Profile}></MainStack.Screen>
+    {/* <MainStack.Screen name="Profile" component={Profile}></MainStack.Screen> */}
+    <MainStack.Screen name="SignIn" component={SignIn}></MainStack.Screen>
+    {/* sign ini harusnya di ilangin ya nanti, diganti di authstack  */}
   </MainStack.Navigator>
 );

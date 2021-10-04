@@ -43,6 +43,7 @@ const Profile = (props) => {
   };
 
   const onLogIn = () => {
+    // alert("login");
     navigation.navigate("SignIn");
   };
 
@@ -52,11 +53,14 @@ const Profile = (props) => {
   };
 
   return (
-    <SafeAreaView style={BaseStyle.safeAreaView} edges={['right', 'top', 'left']}>
+    <SafeAreaView
+      style={BaseStyle.safeAreaView}
+      edges={["right", "top", "left"]}
+    >
       <View style={[BaseStyle.container, { flex: 1 }]}>
         <View style={{ marginBottom: 20 }}>
           <Text header bold>
-            {t("setting")}
+            {t("profile")}
           </Text>
         </View>
         <View style={{ flex: 1 }}>
@@ -95,6 +99,7 @@ const Profile = (props) => {
                 }}
               >
                 <Text body1>{t("setting")}</Text>
+                {/* <Text>{"halo"}</Text> */}
                 <Icon
                   name="angle-right"
                   size={18}
