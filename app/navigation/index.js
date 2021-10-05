@@ -55,9 +55,9 @@ const Navigator = (props) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const navigationRef = useRef(null);
+  const [users, setUsers] = useState(false);
 
   useEffect(() => {
-    console.log("navigation apanih", navigation);
     // Hide screen loading
     SplashScreen.hide();
 
@@ -80,6 +80,7 @@ const Navigator = (props) => {
         Utils.enableExperimental();
         setLoading(false);
 
+        setUsers(true);
         //disini ditaro kayak usercontroller untuk validasi dan insert item ke storage
         //contohnya ada di setiap sign in mobile
 
@@ -99,6 +100,17 @@ const Navigator = (props) => {
               headerShown: false,
             }}
           >
+            {!users ? (
+              <MainStack.Screen
+                name="MainStack"
+                component={MainTabScreen}
+              ></MainStack.Screen>
+            ) : (
+              <AuthStack.Screen
+                name="AuthStackScreen"
+                component={AuthStackScreen}
+              ></AuthStack.Screen>
+            )}
             {/* {!loading ? (
               <MainStack.Screen
                 name="MainStack"
@@ -110,10 +122,10 @@ const Navigator = (props) => {
                 component={AuthStackScreen}
               ></AuthStack.Screen>
             )} */}
-            <MainStack.Screen
+            {/* <MainStack.Screen
               name="MainStack"
               component={MainTabScreen}
-            ></MainStack.Screen>
+            ></MainStack.Screen> */}
           </MainStack.Navigator>
         </NavigationContainer>
       </DarkModeProvider>

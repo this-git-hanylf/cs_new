@@ -55,8 +55,8 @@ export const MainTabScreen = ({ navigation }) => (
 const MainStackScreen = ({ navigation }) => (
   <MainStack.Navigator headerMode="none">
     <MainStack.Screen name="Home" component={Home}></MainStack.Screen>
-    {/* <MainStack.Screen name="Profile" component={Profile}></MainStack.Screen> */}
-    <MainStack.Screen name="SignIn" component={SignIn}></MainStack.Screen>
+    <MainStack.Screen name="Profile" component={Profile}></MainStack.Screen>
+    {/* <MainStack.Screen name="SignIn" component={SignIn}></MainStack.Screen> */}
     {/* sign ini harusnya di ilangin ya nanti, diganti di authstack  */}
   </MainStack.Navigator>
 );
