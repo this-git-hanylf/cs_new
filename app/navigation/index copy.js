@@ -1,5 +1,3 @@
-/** @format */
-
 import { ApplicationActions } from "@actions";
 import { AssistiveTouch } from "@components";
 import { BaseSetting, useTheme } from "@config";
@@ -15,12 +13,39 @@ import { DarkModeProvider, useDarkMode } from "react-native-dark-mode";
 import SplashScreen from "react-native-splash-screen";
 import { useDispatch, useSelector } from "react-redux";
 import { AllScreens, ModalScreens } from "./config";
-import Profile from "@screens/Profile";
-import SignIn from "@screens/SignIn";
 const RootStack = createStackNavigator();
 const MainStack = createStackNavigator();
+const AuthStack = createStackNavigator();
+
 import { StackActions } from "@react-navigation/native";
-import Home from "@screens/Home";
+import { MainStackScreen, MainTabScreen } from "./config/MainStackScreen";
+import { AuthStackScreen } from "./config/AuthStackScreen";
+
+const MainScreens = () => {
+  return (
+    <MainStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <MainStack.Screen
+        name="MainStack"
+        component={MainStackScreen}
+      ></MainStack.Screen>
+      {/* {Object.keys(AllScreens).map((name, index) => {
+        const { component, options } = AllScreens[name];
+        return (
+          <MainStack.Screen
+            key={name}
+            name={name}
+            component={component}
+            options={options}
+          />
+        );
+      })} */}
+    </MainStack.Navigator>
+  );
+};
 
 const Navigator = (props) => {
   const { theme, colors } = useTheme();
@@ -30,6 +55,7 @@ const Navigator = (props) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const navigationRef = useRef(null);
+  const [users, setUsers] = useState(false);
 
   useEffect(() => {
     // Hide screen loading
@@ -53,33 +79,56 @@ const Navigator = (props) => {
       setTimeout(() => {
         Utils.enableExperimental();
         setLoading(false);
-        navigationRef?.current?.dispatch(StackActions.replace("SignIn"));
+
+        setUsers(true);
+        //disini ditaro kayak usercontroller untuk validasi dan insert item ke storage
+        //contohnya ada di setiap sign in mobile
+
+        // navigationRef?.current?.dispatch(StackActions.("SignIn"));
+        //bisa kasih validasi disini, jika login apa dan tidak login apa
       }, 300);
     };
     onProcess();
   }, []);
 
-  const goToApp = (name) => {
-    navigationRef?.current?.navigate(name);
-  };
-
   return (
     <View style={{ flex: 1, position: "relative" }}>
       <DarkModeProvider>
         <NavigationContainer theme={theme} ref={navigationRef}>
-          <RootStack.Navigator
-            initialRouteName="Loading"
+          <MainStack.Navigator
             screenOptions={{
               headerShown: false,
             }}
           >
-            <RootStack.Screen name="SignIn" component={SignIn} />
-            <RootStack.Screen name="Home" component={Home} />
-            <RootStack.Screen name="Profile" component={Profile} />
-          </RootStack.Navigator>
+            {!users ? (
+              <MainStack.Screen
+                name="MainStack"
+                component={MainTabScreen}
+              ></MainStack.Screen>
+            ) : (
+              <AuthStack.Screen
+                name="AuthStackScreen"
+                component={AuthStackScreen}
+              ></AuthStack.Screen>
+            )}
+            {/* {!loading ? (
+              <MainStack.Screen
+                name="MainStack"
+                component={MainTabScreen}
+              ></MainStack.Screen>
+            ) : (
+              <AuthStack.Screen
+                name="AuthStackScreen"
+                component={AuthStackScreen}
+              ></AuthStack.Screen>
+            )} */}
+            {/* <MainStack.Screen
+              name="MainStack"
+              component={MainTabScreen}
+            ></MainStack.Screen> */}
+          </MainStack.Navigator>
         </NavigationContainer>
       </DarkModeProvider>
-      {!loading && <AssistiveTouch goToApp={goToApp} />}
     </View>
   );
 };

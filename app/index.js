@@ -1,5 +1,6 @@
-import { persistor, store } from "app/store";
-import React from "react";
+// import { persistor, store } from "./reducers";
+import { persist, store } from "./reducers";
+import React, { useState, useEffect } from "react";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import App from "./navigation";
@@ -9,15 +10,24 @@ import * as Utils from "@utils";
 Utils.setupLayoutAnimation();
 
 const Mazi = () => {
-  return (
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    persist(() => {
+      setTimeout(() => {
+        setReady(true);
+      }, 1000);
+    });
+  });
+  return ready ? (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <SafeAreaProvider>
-          <App />
-        </SafeAreaProvider>
-      </PersistGate>
+      {/* <PersistGate loading={null}> */}
+      <SafeAreaProvider>
+        <App />
+      </SafeAreaProvider>
+      {/* </PersistGate> */}
     </Provider>
-  );
+  ) : null;
 };
 
 export default Mazi;

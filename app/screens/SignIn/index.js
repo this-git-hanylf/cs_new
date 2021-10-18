@@ -9,7 +9,7 @@ import {
 } from "@components";
 import { BaseColor, BaseStyle, useTheme } from "@config";
 import { Images } from "@config";
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   ScrollView,
   TouchableOpacity,
@@ -19,10 +19,14 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./styles";
 import { useTranslation } from "react-i18next";
-
+import getUser from "../../selectors/UserSelectors";
+import { login, actionTypes } from "../../actions/UserActions";
+import { isLoadingSelector } from "../../selectors/StatusSelectors";
+import errorsSelector from "../../selectors/ErrorSelectors";
+import DeviceInfo from "react-native-device-info";
 const { authentication } = AuthActions;
 const successInit = {
   id: true,
@@ -34,33 +38,58 @@ const SignIn = (props) => {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const dispatch = useDispatch();
-  const [id, setId] = useState("test");
-  const [password, setPassword] = useState("123456");
-  const [loading, setLoading] = useState(false);
+  // const [id, setId] = useState("test");
+  // const [password, setPassword] = useState("123456");
+  // const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(successInit);
 
-  const onLogin = () => {
-    if (id == "" || password == "") {
-      setSuccess({
-        ...success,
-        id: false,
-        password: false,
-      });
-    } else {
-      setLoading(true);
-      dispatch(
-        authentication(true, (response) => {
-          if (response.success && id == "test" && password == "123456") {
-            navigation.navigate("Home");
-            // setLoading(false);
-            // console.log("navigasi apasi ini", navigation);
-          } else {
-            setLoading(false);
-          }
-        })
-      );
+  const isLoading = useSelector((state) =>
+    isLoadingSelector([actionTypes.LOGIN], state)
+  );
+  // const errors = useSelector((state) =>
+  //   errorsSelector([actionTypes.LOGIN], state)
+  // );
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState([]);
+  const user = useSelector((state) => getUser(state));
+
+  //
+  const loginUser = useCallback(
+    () => dispatch(login(email, password)),
+    [email, password, dispatch]
+  );
+  const passwordChanged = useCallback((value) => setPassword(value), []);
+  const emailChanged = useCallback((value) => setEmail(value), []);
+  // const onLogin = () => {
+  //   if (id == "" || password == "") {
+  //     setSuccess({
+  //       ...success,
+  //       id: false,
+  //       password: false,
+  //     });
+  //   } else {
+  //     setLoading(true);
+  //     dispatch(
+  //       authentication(true, (response) => {
+  //         if (response.success && id == "test" && password == "123456") {
+  //           navigation.navigate("Home");
+  //           // setLoading(false);
+  //           // console.log("navigasi apasi ini", navigation);
+  //         } else {
+  //           setLoading(false);
+  //         }
+  //       })
+  //     );
+  //   }
+  // };
+
+  useEffect(() => {
+    if (user !== null) {
+      // console.log("use effec nav", user);
+      props.navigation.navigate("Home");
     }
-  };
+  });
 
   const offsetKeyboard = Platform.select({
     ios: 0,
@@ -99,7 +128,7 @@ const SignIn = (props) => {
         <View style={styles.contain}>
           <TextInput
             style={[BaseStyle.textInput]}
-            onChangeText={(text) => setId(text)}
+            onChangeText={emailChanged}
             onFocus={() => {
               setSuccess({
                 ...success,
@@ -107,16 +136,16 @@ const SignIn = (props) => {
               });
             }}
             autoCorrect={false}
-            placeholder={t("input_id")}
+            placeholder={t("username")}
             placeholderTextColor={
               success.id ? BaseColor.grayColor : colors.primary
             }
-            value={id}
+            value={email}
             selectionColor={colors.primary}
           />
           <TextInput
             style={[BaseStyle.textInput, { marginTop: 10 }]}
-            onChangeText={(text) => setPassword(text)}
+            onChangeText={passwordChanged}
             onFocus={() => {
               setSuccess({
                 ...success,
@@ -135,9 +164,11 @@ const SignIn = (props) => {
           <View style={{ width: "100%", marginVertical: 16 }}>
             <Button
               full
-              loading={loading}
+              loading={isLoading}
               style={{ marginTop: 20 }}
-              onPress={onLogin}
+              // onPress={onLogin}
+              onPress={loginUser}
+              // onPress={buttonLogin}
             >
               {t("sign_in")}
             </Button>
