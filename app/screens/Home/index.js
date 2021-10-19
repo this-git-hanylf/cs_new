@@ -143,7 +143,7 @@ const Home = (props) => {
                 icon={item.icon}
                 color={item.color}
                 image={item.image}
-                // onPress={goToPost}
+                onPress={goPost}
               />
             )}
           />
