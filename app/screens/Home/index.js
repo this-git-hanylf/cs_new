@@ -1,11 +1,10 @@
 import {
-  CardChannelGrid,
-  CardSlide,
-  CategoryList,
-  News43,
-  NewsList,
   SafeAreaView,
   Text,
+
+  //new home
+  HeaderImage,
+  CategoryBoxMenusGrid,
 } from "@components";
 import { BaseColor, BaseStyle } from "@config";
 import {
@@ -15,11 +14,15 @@ import {
   HomeTopicData,
   PostListData,
 } from "@data";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, ScrollView, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import styles from "./styles";
+import { useSelector } from "react-redux";
+import getUser from "../../selectors/UserSelectors";
+
+import { MenusData } from "@data";
 
 const Home = (props) => {
   const { navigation } = props;
@@ -29,12 +32,21 @@ const Home = (props) => {
   const [popular, setPopular] = useState(HomePopularData);
   const [list, setList] = useState(HomeListData);
   const [loading, setLoading] = useState(true);
+  const [userName, setUserName] = useState("");
+
+  const [category, setCategory] = useState(MenusData);
+
+  const user = useSelector((state) => getUser(state));
 
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
     }, 1000);
   }, []);
+
+  useEffect(() => {
+    setUserName(user.Data.name);
+  });
 
   const goPost = (item) => () => {
     navigation.navigate("Post", { item: item });
@@ -51,131 +63,92 @@ const Home = (props) => {
   const renderContent = () => {
     const mainNews = PostListData[0];
     return (
-      <View>
+      <SafeAreaView>
         <View style={{ paddingHorizontal: 20, paddingBottom: 10 }}>
-          <Text header bold>
-            {t("today")}
-            halo
+          <Text header bold style={{ marginTop: 5 }}>
+            Pakubuwono
+            {/* ini adalah hardcode gabisa ikut ganti bahasa */}
           </Text>
-          <Text subhead grayColor style={{ marginTop: 5 }}>
+          {/* <Text subhead grayColor style={{ marginTop: 5 }}>
             {t("discover_last_news_today")}
+          </Text> */}
+          <Text subhead grayColor style={{ marginTop: 5 }}>
+            Make everyday extraordinary
+            {/* ini adalah hardcode gabisa ikut ganti bahasa */}
           </Text>
         </View>
         <ScrollView contentContainerStyle={styles.paddingSrollView}>
-          <News43
+          <HeaderImage
             loading={loading}
             onPress={goPostDetail(mainNews)}
             style={{ marginTop: 5 }}
             image={mainNews.image}
-            name={mainNews.name}
-            description={mainNews.description}
-            title={mainNews.title}
-          />
-          <FlatList
-            scrollEnabled={false}
-            contentContainerStyle={styles.paddingFlatList}
-            data={list}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item, index }) => (
-              <NewsList
-                loading={loading}
-                image={item.image}
-                title={item.title}
-                subtitle={item.subtitle}
-                date={item.date}
-                style={{
-                  marginBottom: index == list.length - 1 ? 0 : 15,
-                }}
-                onPress={goPostDetail(item)}
-              />
-            )}
           />
 
+          <View
+            style={{
+              backgroundColor: BaseColor.abumuda_pkbw,
+              borderRadius: 15,
+              marginHorizontal: 10,
+              marginVertical: 20,
+              height: 70,
+            }}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-around",
+                flex: 1,
+                alignItems: "center",
+              }}
+            >
+              <View>
+                <Text style={{ fontSize: 11 }}>INVOICE DUE</Text>
+                <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                  Rp. 10.000.000
+                </Text>
+              </View>
+              <View>
+                <Text style={{ textAlign: "right", fontSize: 11 }}>TOTAL</Text>
+                <Text
+                  style={{
+                    textAlign: "right",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Rp. 15.000.000
+                </Text>
+              </View>
+            </View>
+          </View>
+
           <FlatList
-            contentContainerStyle={styles.paddingFlatList}
-            horizontal={true}
+            key={4}
             showsHorizontalScrollIndicator={false}
-            data={popular}
-            keyExtractor={(item, index) => item.id}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ margin: 5 }}
+            numColumns={4}
+            data={category}
+            keyExtractor={(item, index) => index.toString()}
             renderItem={({ item, index }) => (
-              <CardSlide
+              <CategoryBoxMenusGrid
                 loading={loading}
-                onPress={goPostDetail(item)}
                 style={{
-                  marginRight: index == popular.length - 1 ? 0 : 15,
+                  // paddingLeft: index % 2 == 0 ? 0 : 10,
+                  margin: 0,
+                  paddingBottom: 15,
                 }}
-                image={item.image}
-                date={item.date}
                 title={item.title}
+                icon={item.icon}
+                color={item.color}
+                image={item.image}
+                // onPress={goToPost}
               />
             )}
           />
-          <View style={styles.topicsView}>
-            <Text title3 semibold style={styles.title}>
-              {t("browse_topics")}
-            </Text>
-            <Text light footnote regular grayColor>
-              {t("select_your_most_interesting_category")}
-            </Text>
-            <FlatList
-              contentContainerStyle={{ marginTop: 10 }}
-              data={topics}
-              keyExtractor={(item, index) => item.id}
-              renderItem={({ item, index }) => (
-                <CategoryList
-                  loading={loading}
-                  onPress={goPost(item)}
-                  style={{
-                    // marginBottom: 0,
-                    marginBottom: index == topics.length - 1 ? 0 : 15,
-                  }}
-                  image={item.image}
-                  title={item.title}
-                  subtitle={item.subtitle}
-                />
-              )}
-              ListFooterComponent={
-                <TouchableOpacity onPress={goToCategory}>
-                  <Text body2 semibold accentColor>
-                    {t("see_more")}
-                  </Text>
-                </TouchableOpacity>
-              }
-              ListFooterComponentStyle={{
-                width: "100%",
-                alignItems: "center",
-                paddingTop: 15,
-              }}
-            />
-          </View>
-          <View>
-            <Text title3 semibold style={styles.title}>
-              {t("discover_channels")}
-            </Text>
-            <Text light footnote regular grayColor>
-              {t("description_discover_channels")}
-            </Text>
-            <FlatList
-              contentContainerStyle={{ marginTop: 15 }}
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-              data={channels}
-              keyExtractor={(item, index) => item.id}
-              renderItem={({ item, index }) => (
-                <CardChannelGrid
-                  loading={loading}
-                  onPress={goPostDetail}
-                  style={{
-                    marginRight: index == channels.length - 1 ? 0 : 15,
-                  }}
-                  image={item.image}
-                  title={item.title}
-                />
-              )}
-            />
-          </View>
         </ScrollView>
-      </View>
+      </SafeAreaView>
     );
   };
 

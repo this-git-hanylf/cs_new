@@ -53,12 +53,14 @@ const SignIn = (props) => {
   const [password, setPassword] = useState("");
   const [formData, setFormData] = useState([]);
   const user = useSelector((state) => getUser(state));
+  console.log("user di sign in", user);
 
   //
   const loginUser = useCallback(
     () => dispatch(login(email, password)),
     [email, password, dispatch]
   );
+
   const passwordChanged = useCallback((value) => setPassword(value), []);
   const emailChanged = useCallback((value) => setEmail(value), []);
   // const onLogin = () => {
@@ -83,9 +85,11 @@ const SignIn = (props) => {
   //     );
   //   }
   // };
-
   useEffect(() => {
-    if (user !== null) {
+    console.log("datauser", user);
+  });
+  useEffect(() => {
+    if (user !== null && user !== undefined) {
       // console.log("use effec nav", user);
       props.navigation.navigate("Home");
     }
@@ -103,19 +107,19 @@ const SignIn = (props) => {
     >
       <Header
         title={t("sign_in")}
-        renderLeft={() => {
-          return (
-            <Icon
-              name="angle-left"
-              size={20}
-              color={colors.primary}
-              enableRTL={true}
-            />
-          );
-        }}
-        onPressLeft={() => {
-          navigation.goBack();
-        }}
+        // renderLeft={() => {
+        //   return (
+        //     <Icon
+        //       name="angle-left"
+        //       size={20}
+        //       color={colors.primary}
+        //       enableRTL={true}
+        //     />
+        //   );
+        // }}
+        // onPressLeft={() => {
+        //   navigation.goBack();
+        // }}
       />
 
       <KeyboardAvoidingView

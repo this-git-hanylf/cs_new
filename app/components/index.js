@@ -161,3 +161,8 @@ export { default as TextInput } from "./TextInput";
 export { default as TextInputMoney } from "./TextInput/Money";
 
 export { default as NotFound } from "./NotFound";
+
+//new home
+export { default as HeaderImage } from "./Header/Header/HeaderImage";
+
+export { default as CategoryBoxMenusGrid } from "./Category/BoxMenusGrid";

@@ -18,7 +18,17 @@ export const BaseColor = {
   greenColor: "#58D68D",
   pinkLightColor: "#FF5E80",
   pinkDarkColor: "#F90030",
-  accentColor: "#4A90A4"
+  accentColor: "#4A90A4",
+
+  //pakubuwono
+  hijau_pkbw: "#77a05a",
+  krem_pkbw: "#f4f4f4",
+  coklatmuda_pkbw: "#c9bd8f",
+  coklat_pkbw: "#b5a976",
+  abu_pkbw: "#9f9f9f",
+  abumuda_pkbw: "#f7f7f7",
+  army_pkbw: "#7a8670",
+  abutext_pkbw: "#858585",
 };
 
 /**

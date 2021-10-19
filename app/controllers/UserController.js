@@ -24,8 +24,12 @@ class UserController {
           app: "O",
         },
       });
-      console.log("result login", result);
-      return result.user;
+      // console.log("result login", result);
+      if (result.Error) {
+        return Promise.reject(result.Pesan);
+      } else {
+        return result;
+      }
     } catch (error) {
       console.log("error login api", error);
       return Promise.reject(error);
