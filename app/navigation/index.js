@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AllScreens, ModalScreens } from "./config";
 import Profile from "@screens/Profile";
 import SignIn from "@screens/SignIn";
+import OnBoard from "../screens/OnBoard";
 const RootStack = createStackNavigator();
 const MainStack = createStackNavigator();
 import { StackActions } from "@react-navigation/native";
@@ -53,7 +54,7 @@ const Navigator = (props) => {
       setTimeout(() => {
         Utils.enableExperimental();
         setLoading(false);
-        navigationRef?.current?.dispatch(StackActions.replace("SignIn"));
+        navigationRef?.current?.dispatch(StackActions.replace("OnBoard"));
       }, 300);
     };
     onProcess();
@@ -73,13 +74,14 @@ const Navigator = (props) => {
               headerShown: false,
             }}
           >
+            <RootStack.Screen name="OnBoard" component={OnBoard} />
             <RootStack.Screen name="SignIn" component={SignIn} />
             <RootStack.Screen name="Home" component={Home} />
             <RootStack.Screen name="Profile" component={Profile} />
           </RootStack.Navigator>
         </NavigationContainer>
       </DarkModeProvider>
-      {!loading && <AssistiveTouch goToApp={goToApp} />}
+      {/* {!loading && <AssistiveTouch goToApp={goToApp} />} */}
     </View>
   );
 };

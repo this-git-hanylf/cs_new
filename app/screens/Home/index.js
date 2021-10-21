@@ -1,7 +1,7 @@
 import {
   SafeAreaView,
   Text,
-
+  Button,
   //new home
   HeaderImage,
   CategoryBoxMenusGrid,
@@ -50,6 +50,10 @@ const Home = (props) => {
 
   const goPost = (item) => () => {
     navigation.navigate("Post", { item: item });
+  };
+
+  const gotoProfil = (item) => () => {
+    navigation.navigate("Profile", { item: item });
   };
 
   const goPostDetail = (item) => () => {
@@ -122,6 +126,10 @@ const Home = (props) => {
               </View>
             </View>
           </View>
+
+          <TouchableOpacity onPress={gotoProfil()}>
+            <Text>bt</Text>
+          </TouchableOpacity>
 
           <FlatList
             key={4}
