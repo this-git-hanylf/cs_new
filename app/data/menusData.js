@@ -23,7 +23,7 @@ export const MenusData = [
   },
   {
     id: "3",
-    screen: "Place",
+    screen: "Category", //ini contoh untuk url dari database
     image: require("../assets/images/dummy/icon_menu_home/electric-meter-colored.png"),
     icon: "child",
     title: "Meter Info",
@@ -32,7 +32,7 @@ export const MenusData = [
   },
   {
     id: "4",
-    screen: "Place",
+    screen: "News",
     image: require("../assets/images/dummy/icon_menu_home/newspaper-colored.png"),
     icon: "home",
     title: "News",
@@ -44,7 +44,7 @@ export const MenusData = [
     screen: "Place",
     image: require("../assets/images/dummy/icon_menu_home/coupon-colored.png"),
     icon: "book",
-    title: "Promo",
+    title: "Rent & Sale",
     subtitle: "58 articles",
     color: "#f7e1d3",
   },
@@ -62,17 +62,26 @@ export const MenusData = [
     screen: "Place",
     image: require("../assets/images/dummy/icon_menu_home/to-do-list-colored.png"),
     icon: "hand-peace",
-    title: "Regulation",
+    title: "House Role",
     subtitle: "58 articles",
     color: "#dae9d0",
   },
   {
     id: "8",
     screen: "Place",
-    image: require("../assets/images/dummy/icon_menu_home/tools-colored.png"),
-    icon: "futbol",
-    title: "Facility",
+    image: require("../assets/images/dummy/icon_menu_home/to-do-list-colored.png"), //icon courier belum
+    icon: "hand-peace",
+    title: "Courier",
     subtitle: "58 articles",
-    color: "#fbf2df",
+    color: "#dae9d0",
   },
+  // {
+  //   id: "8",
+  //   screen: "Place",
+  //   image: require("../assets/images/dummy/icon_menu_home/tools-colored.png"),
+  //   icon: "futbol",
+  //   title: "Facility",
+  //   subtitle: "58 articles",
+  //   color: "#fbf2df",
+  // },
 ];

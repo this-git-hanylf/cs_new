@@ -29,6 +29,7 @@ export const BaseColor = {
   abumuda_pkbw: "#f7f7f7",
   army_pkbw: "#7a8670",
   abutext_pkbw: "#858585",
+  milo_pkbw: "#d0be9b",
 };
 
 /**

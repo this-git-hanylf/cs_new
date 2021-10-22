@@ -8,7 +8,7 @@ import {
   Tag,
   Text,
 } from "@components";
-import { BaseStyle, useTheme } from "@config";
+import { BaseStyle, useTheme, BaseColor } from "@config";
 // Load sample data
 import { UserData } from "@data";
 import React, { useState } from "react";
@@ -17,6 +17,8 @@ import { ScrollView, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./styles";
 const { authentication } = AuthActions;
+
+import getUser from "../../selectors/UserSelectors";
 
 const Profile = (props) => {
   const { colors } = useTheme();
@@ -27,6 +29,9 @@ const Profile = (props) => {
   const [userData, setUserData] = useState(UserData[0]);
   const auth = useSelector((state) => state.auth);
   const login = auth.login.success;
+
+  const user = useSelector((state) => getUser(state));
+  console.log("user profil", user);
 
   /**
    * @description Simple logout with Redux
@@ -57,28 +62,35 @@ const Profile = (props) => {
       style={BaseStyle.safeAreaView}
       edges={["right", "top", "left"]}
     >
-      <View style={[BaseStyle.container, { flex: 1 }]}>
-        <View style={{ marginBottom: 20 }}>
-          <Text header bold>
+      <View style={{ flex: 1 }}>
+        {/* <View style={{ marginBottom: 20 }}>
+          <Text header bold style={{ color: BaseColor.hijau_pkbw }}>
             {t("profile")}
           </Text>
-        </View>
+        </View> */}
         <View style={{ flex: 1 }}>
           <ScrollView
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
           >
-            {login && (
-              <ProfileDetail
-                image={userData.image}
-                textFirst={userData.name}
-                point={userData.point}
-                textSecond={userData.address}
-                textThird={userData.id}
-                onPress={() => {}}
-              />
-            )}
-            {login && (
+            <View
+              style={{
+                backgroundColor: BaseColor.milo_pkbw,
+                paddingVertical: 60,
+              }}
+            >
+              {login && (
+                <ProfileDetail
+                  image={{ uri: user.Data.pict }}
+                  textFirst={user.Data.name}
+                  point={userData.point}
+                  textSecond={user.Data.Group}
+                  // onPress={() => {}}
+                />
+              )}
+            </View>
+
+            {/* {login && (
               <View style={styles.viewFollow}>
                 <View style={{ flex: 3 }}>
                   <Tag primary style={styles.follow} styleText={{}}>
@@ -90,8 +102,8 @@ const Profile = (props) => {
                   <ProfilePerformance data={userData.performance} />
                 </View>
               </View>
-            )}
-            <View style={{ width: "100%" }}>
+            )} */}
+            <View style={[BaseStyle.container, { flex: 1 }]}>
               <TouchableOpacity
                 style={styleItem}
                 onPress={() => {
@@ -108,7 +120,75 @@ const Profile = (props) => {
                   enableRTL={true}
                 />
               </TouchableOpacity>
-              {login && (
+              <TouchableOpacity
+                style={styleItem}
+                onPress={() => {
+                  navigation.navigate("AboutUs");
+                }}
+              >
+                <Text body1>{t("about_us")}</Text>
+
+                <Icon
+                  name="angle-right"
+                  size={18}
+                  color={colors.primary}
+                  style={{ marginLeft: 5 }}
+                  enableRTL={true}
+                />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styleItem}
+                onPress={() => {
+                  navigation.navigate("AboutUs");
+                }}
+              >
+                <Text body1>{t("about_us")}</Text>
+
+                <Icon
+                  name="angle-right"
+                  size={18}
+                  color={colors.primary}
+                  style={{ marginLeft: 5 }}
+                  enableRTL={true}
+                />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styleItem}
+                onPress={() => {
+                  navigation.navigate("AboutUs");
+                }}
+              >
+                <Text body1>{t("about_us")}</Text>
+
+                <Icon
+                  name="angle-right"
+                  size={18}
+                  color={colors.primary}
+                  style={{ marginLeft: 5 }}
+                  enableRTL={true}
+                />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styleItem}
+                onPress={() => {
+                  navigation.navigate("AboutUs");
+                }}
+              >
+                <Text body1>{t("about_us")}</Text>
+
+                <Icon
+                  name="angle-right"
+                  size={18}
+                  color={colors.primary}
+                  style={{ marginLeft: 5 }}
+                  enableRTL={true}
+                />
+              </TouchableOpacity>
+
+              {/* {login && (
                 <TouchableOpacity
                   style={styleItem}
                   onPress={() => {
@@ -124,8 +204,8 @@ const Profile = (props) => {
                     enableRTL={true}
                   />
                 </TouchableOpacity>
-              )}
-              {login && (
+              )} */}
+              {/* {login && (
                 <TouchableOpacity
                   style={styleItem}
                   onPress={() => {
@@ -141,9 +221,9 @@ const Profile = (props) => {
                     enableRTL={true}
                   />
                 </TouchableOpacity>
-              )}
+              )} */}
 
-              {login && (
+              {/* {login && (
                 <TouchableOpacity
                   style={styleItem}
                   onPress={() => {
@@ -159,9 +239,9 @@ const Profile = (props) => {
                     enableRTL={true}
                   />
                 </TouchableOpacity>
-              )}
+              )} */}
 
-              {login && (
+              {/* {login && (
                 <TouchableOpacity
                   style={styleItem}
                   onPress={() => {
@@ -177,9 +257,9 @@ const Profile = (props) => {
                     enableRTL={true}
                   />
                 </TouchableOpacity>
-              )}
+              )} */}
 
-              {login && (
+              {/* {login && (
                 <TouchableOpacity
                   style={styleItem}
                   onPress={() => {
@@ -195,53 +275,7 @@ const Profile = (props) => {
                     enableRTL={true}
                   />
                 </TouchableOpacity>
-              )}
-
-              <TouchableOpacity
-                style={styleItem}
-                onPress={() => {
-                  navigation.navigate("PreviewComponent");
-                }}
-              >
-                <Text body1>{t("preview_component")}</Text>
-                <Icon
-                  name="angle-right"
-                  size={18}
-                  color={colors.primary}
-                  style={{ marginLeft: 5 }}
-                  enableRTL={true}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styleItem}
-                onPress={() => {
-                  navigation.navigate("ContactUs");
-                }}
-              >
-                <Text body1>{t("contact_us")}</Text>
-                <Icon
-                  name="angle-right"
-                  size={18}
-                  color={colors.primary}
-                  style={{ marginLeft: 5 }}
-                  enableRTL={true}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styleItem}
-                onPress={() => {
-                  navigation.navigate("AboutUs");
-                }}
-              >
-                <Text body1>{t("about_us")}</Text>
-                <Icon
-                  name="angle-right"
-                  size={18}
-                  color={colors.primary}
-                  style={{ marginLeft: 5 }}
-                  enableRTL={true}
-                />
-              </TouchableOpacity>
+              )} */}
             </View>
           </ScrollView>
         </View>

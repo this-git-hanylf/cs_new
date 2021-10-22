@@ -179,9 +179,9 @@ const EProductDetail = (props) => {
 
     return (
       <Placeholder>
-        <View style={{padding: 20}}>
+        <View style={{ padding: 20 }}>
           {holders.map((item, index) => (
-            <PlaceholderLine key={index} width={100}/>
+            <PlaceholderLine key={index} width={100} />
           ))}
         </View>
       </Placeholder>
@@ -392,7 +392,7 @@ const EProductDetail = (props) => {
               marginRight: 10,
             }}
             icon={
-              <Icon solid name="cart-plus" size={20} color={colors.primary}/>
+              <Icon solid name="cart-plus" size={20} color={colors.primary} />
             }
             onPress={() => setModalVisible(true)}
           >

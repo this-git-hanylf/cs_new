@@ -9,3 +9,5 @@ export const CHANGE_FONT = "CHANGE_FONT";
 export const FORCE_APPEARANCE = "FORCE_APPEARANCE";
 export const CHANGE_LANGUAGE = "CHANGE_LANGUAGE";
 export const SET_MENU = "SET_MENU";
+
+export const ABOUT_US = "GET_ABOUTUS";

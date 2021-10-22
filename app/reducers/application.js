@@ -5,6 +5,7 @@ const initialState = {
   force_dark: null,
   language: null,
   menu: "eCommerce",
+  datas: null,
 };
 
 export default (state = initialState, action = {}) => {
@@ -33,6 +34,12 @@ export default (state = initialState, action = {}) => {
       return {
         ...state,
         menu: action.menu,
+      };
+
+    case actionTypes.ABOUT_US:
+      return {
+        ...state,
+        datas: action.datas,
       };
 
     default:

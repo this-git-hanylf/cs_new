@@ -60,3 +60,14 @@ const MainStackScreen = ({ navigation }) => (
     {/* sign ini harusnya di ilangin ya nanti, diganti di authstack  */}
   </MainStack.Navigator>
 );
+
+const TabsMenu = () => <BottomTabNavigatorMazi tabScreens={MainStackScreen} />;
+
+export default {
+  TabsMenu: {
+    component: TabsMenu,
+    options: {
+      title: "home",
+    },
+  },
+};

@@ -39,7 +39,7 @@ export { default as NewsGrid } from "./News/Grid";
 export { default as ProfileDescription } from "./Profile/Description";
 export { default as ProfileGroup } from "./Profile/Group";
 export { default as ProfileAuthor } from "./Profile/Author";
-export { default as ProfileDetail } from "./Profile/Detail";
+export { default as ProfileDetail_old } from "./Profile/Detail";
 export { default as ProfilePerformance } from "./Profile/Performance";
 export { default as ProfileCall } from "./Profile/Call";
 export { default as ProfileGridSmall } from "./Profile/GridSmall";
@@ -166,3 +166,6 @@ export { default as NotFound } from "./NotFound";
 export { default as HeaderImage } from "./Header/Header/HeaderImage";
 
 export { default as CategoryBoxMenusGrid } from "./Category/BoxMenusGrid";
+
+//new profil
+export { default as ProfileDetail } from "./Profile/Profile";

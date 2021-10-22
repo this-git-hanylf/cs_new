@@ -191,6 +191,13 @@ const SignIn = (props) => {
                 {t("not_have_account")}
               </Text>
             </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => navigation.navigate("SkipLogin")}>
+              <Text body2 primaryColor>
+                skip login
+                {/* {t("not_have_account")} */}
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </KeyboardAvoidingView>

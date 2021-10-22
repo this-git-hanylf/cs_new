@@ -7,7 +7,7 @@ import React from "react";
 import { TouchableOpacity, View } from "react-native";
 import styles from "./styles";
 
-export default function ProfileDetail_old(props) {
+export default function ProfileDetail(props) {
   const { colors } = useTheme();
   const {
     style,
@@ -31,48 +31,24 @@ export default function ProfileDetail_old(props) {
       <View style={[styles.contentLeft, styleLeft]}>
         <View>
           <Image source={image} style={[styles.thumb, styleThumb]} />
-          <View
-            style={[styles.point, { backgroundColor: colors.primaryLight }]}
-          >
-            <Text overline whiteColor semibold>
-              {point}
-            </Text>
-          </View>
         </View>
-        <View style={{ alignItems: "flex-start" }}>
-          <Text headline semibold numberOfLines={1}>
-            {textFirst}
-          </Text>
-          <Text
-            body2
-            style={{
-              marginTop: 3,
-              paddingRight: 10,
-            }}
-            numberOfLines={1}
-          >
-            {textSecond}
-          </Text>
-          <Text footnote grayColor numberOfLines={1}>
-            {textThird}
-          </Text>
-        </View>
+        <Text style={{ fontWeight: "bold", fontSize: 20 }}>{textFirst}</Text>
+        <Text
+          body2
+          style={{
+            marginTop: 3,
+            paddingRight: 10,
+          }}
+          numberOfLines={1}
+        >
+          {textSecond}
+        </Text>
       </View>
-      {icon && (
-        <View style={[styles.contentRight, styleRight]}>
-          <Icon
-            name="angle-right"
-            size={18}
-            color={BaseColor.grayColor}
-            enableRTL={true}
-          />
-        </View>
-      )}
     </TouchableOpacity>
   );
 }
 
-ProfileDetail_old.propTypes = {
+ProfileDetail.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   image: PropTypes.node.isRequired,
   textFirst: PropTypes.string,
@@ -86,7 +62,7 @@ ProfileDetail_old.propTypes = {
   onPress: PropTypes.func,
 };
 
-ProfileDetail_old.defaultProps = {
+ProfileDetail.defaultProps = {
   image: "",
   textFirst: "",
   textSecond: "",

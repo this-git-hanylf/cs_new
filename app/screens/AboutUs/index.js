@@ -8,22 +8,110 @@ import {
   Text,
 } from "@components";
 import { BaseColor, BaseStyle, useTheme } from "@config";
+import { useSelector, useDispatch } from "react-redux";
+
 import { Images } from "@config";
 import { AboutUsData } from "@data";
 import * as Utils from "@utils";
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { ScrollView, View } from "react-native";
 import styles from "./styles";
 import { useTranslation } from "react-i18next";
+// import { selectorsAboutUs } from "../../selectors/AboutUsSelectors";
+import { getAboutUs } from "../../actions/application";
+import { API_URL } from "@env";
+import axios from "axios";
 
-const AboutUs = (props) => {
+import getUser from "../../selectors/UserSelectors";
+
+function AboutUs(props) {
   const { navigation } = props;
   const { colors } = useTheme();
   const { t } = useTranslation();
   const [ourTeam, setOurTeam] = useState(AboutUsData);
+  const [dataAboutUs, setdataAboutUs] = useState([]);
+  const [dataTowerUser, setdataTowerUser] = useState([]);
+
+  // console.log("dataTowerUser", dataTowerUser);
+
+  const user = useSelector((state) => getUser(state));
+  console.log("user skip login", user);
+
+  const getTower = async () => {
+    let email = user.Data.user;
+
+    const data = {
+      email: email,
+      app: "O",
+    };
+
+    const config = {
+      headers: {
+        accept: "application/json",
+        "Content-Type": "application/json",
+        // token: "",
+      },
+    };
+
+    await axios
+      .get(
+        `http://34.87.121.155:2121/apiwebpbi/api/getData/mysql/${data.email}/${data.app}`,
+        {
+          config,
+        }
+      )
+      .then((res) => {
+        const datas = res.data;
+        setdataTowerUser(res.data);
+        getAboutUs(datas);
+        // return res.data;
+      })
+      .catch((error) => {
+        console.log("error get tower api", error);
+        alert("error get");
+      });
+  };
+
+  const getAboutUs = async (datas) => {
+    // console.log("dataTowerUser", datas);
+    const params = {
+      entity_cd: datas.Data[0].entity_cd,
+      project_no: datas.Data[0].project_no,
+      // entity_cd: "01",
+      // project_no: "01",
+    };
+
+    const config = {
+      headers: {
+        accept: "application/json",
+        "Content-Type": "application/json",
+        token: "",
+      },
+    };
+
+    await axios
+      .post(`http://34.87.121.155:2121/apiwebpbi/api/about`, params, {
+        config,
+      })
+      .then((res) => {
+        setdataAboutUs(res.data.data);
+        // return res.data;
+      })
+      .catch((error) => {
+        console.log("error get about us", error.response.data);
+        alert("error get");
+      });
+  };
+
+  useEffect(() => {
+    getTower();
+  }, []);
 
   return (
-    <SafeAreaView style={BaseStyle.safeAreaView} edges={['right', 'top', 'left']}>
+    <SafeAreaView
+      style={BaseStyle.safeAreaView}
+      edges={["right", "top", "left"]}
+    >
       <Header
         title={t("about_us")}
         renderLeft={() => {
@@ -41,97 +129,223 @@ const AboutUs = (props) => {
         }}
       />
       <ScrollView>
-        <View>
-          <Image source={Images.trip4} style={{ width: "100%", height: 135 }} />
-          <View style={styles.titleAbout}>
-            <Text title1 semibold whiteColor>
-              {t("about_us")}
-            </Text>
-            <Text subhead whiteColor>
-              {t("slogan_about_us")}
-            </Text>
-          </View>
-        </View>
         <View style={{ padding: 20 }}>
           <Text headline semibold>
             {t("who_we_are")}
           </Text>
-          <Text body2 style={{ marginTop: 5 }}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat
-          </Text>
-          <Text headline semibold style={{ marginTop: 20 }}>
-            {t("what_we_do")}
-          </Text>
-          <Text body2 style={{ marginTop: 5 }}>
-            - First Class Flights
-          </Text>
-          <Text body2 style={{ marginTop: 5 }}>
-            - 5 Star Accommodations
-          </Text>
-          <Text body2 style={{ marginTop: 5 }}>
-            - Inclusive Packages
-          </Text>
-          <Text body2 style={{ marginTop: 5 }}>
-            - Latest Model Vehicles
-          </Text>
-          <Text headline semibold style={{ marginTop: 20, marginBottom: 15 }}>
-            {t("meet_our_team")}
-          </Text>
+          {dataAboutUs.map((item, index) => {
+            return (
+              <View
+                style={{
+                  marginVertical: 5,
+                  paddingHorizontal: 10,
+                  paddingVertical: 10,
+                  width: "100%",
+                  // -- create shadow
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 1,
+                  },
+                  shadowOpacity: 0.22,
+                  shadowRadius: 2.22,
+                  elevation: 3,
+                  backgroundColor: BaseColor.whiteColor,
+                  borderRadius: 15,
+                }}
+              >
+                <Text body2 style={{ marginTop: 5 }}>
+                  {item.about_us.replace(/<\/?[^>]+(>|$)/g, "")}
+                </Text>
+              </View>
+            );
+          })}
+
+          <View
+            style={{ alignItems: "center", marginTop: 20, marginBottom: 10 }}
+          >
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: "bold",
+                color: BaseColor.hijau_pkbw,
+              }}
+            >
+              {t("address")}
+            </Text>
+          </View>
           <View
             style={{
-              flexDirection: "row",
-              flexWrap: "wrap",
-              justifyContent: "space-between",
+              marginVertical: 5,
+              paddingHorizontal: 10,
+              paddingVertical: 10,
+              width: "100%",
+              // -- create shadow
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 1,
+              },
+              shadowOpacity: 0.22,
+              shadowRadius: 2.22,
+              elevation: 3,
+              backgroundColor: BaseColor.whiteColor,
+              borderRadius: 15,
             }}
           >
-            {ourTeam.map((item, index) => {
+            {dataAboutUs.map((item, index) => {
               return (
                 <View
                   style={{
-                    height: 200,
-                    width: Utils.getWidthDevice() / 2 - 30,
-                    marginBottom: 20,
+                    flexDirection: "row",
+                    alignSelf: "center",
                   }}
-                  key={"ourTeam" + index}
                 >
-                  <Card
-                    image={item.image}
-                    onPress={() => navigation.navigate(item.screen)}
+                  <Icon
+                    name="map-pin"
+                    size={20}
+                    color={BaseColor.coklat_pkbw}
+                    style={{ marginHorizontal: 10 }}
+                  />
+                  <Text
+                    body2
+                    style={{
+                      fontSize: 13,
+                      textAlign: "justify",
+                      paddingRight: 15,
+                      paddingTop: 5,
+                    }}
                   >
-                    <Text footnote whiteColor>
-                      {item.subName}
-                    </Text>
-                    <Text headline whiteColor semibold>
-                      {item.name}
-                    </Text>
-                  </Card>
+                    {item.address.replace(/<\/?[^>]+(>|$)/g, "")}
+                  </Text>
                 </View>
               );
             })}
           </View>
-          <Text headline semibold>
-            {t("our_service")}
-          </Text>
-          {ourTeam.map((item, index) => {
-            return (
-              <ProfileDescription
-                key={"service" + index}
-                image={item.image}
-                name={item.name}
-                subName={item.subName}
-                description={item.description}
-                style={{ marginTop: 10 }}
-                onPress={() => navigation.navigate(item.screen)}
-              />
-            );
-          })}
+
+          <View
+            style={{ alignItems: "center", marginTop: 20, marginBottom: 10 }}
+          >
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: "bold",
+                color: BaseColor.hijau_pkbw,
+              }}
+            >
+              {t("contact_us")}
+            </Text>
+          </View>
+          <View
+            style={{
+              marginVertical: 5,
+              paddingHorizontal: 10,
+              paddingVertical: 10,
+              width: "100%",
+              // -- create shadow
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 1,
+              },
+              shadowOpacity: 0.22,
+              shadowRadius: 2.22,
+              elevation: 3,
+              backgroundColor: BaseColor.whiteColor,
+              borderRadius: 15,
+            }}
+          >
+            {dataAboutUs.map((item, index) => {
+              return (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignSelf: "center",
+                  }}
+                >
+                  <Icon
+                    name="user-circle"
+                    size={20}
+                    color={BaseColor.coklat_pkbw}
+                    style={{ marginHorizontal: 10 }}
+                  />
+                  <Text
+                    body2
+                    style={{
+                      fontSize: 13,
+                      textAlign: "justify",
+                      paddingRight: 15,
+                      paddingTop: 5,
+                    }}
+                  >
+                    {item.contact_name}
+                  </Text>
+                </View>
+              );
+            })}
+
+            {dataAboutUs.map((item, index) => {
+              return (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignSelf: "center",
+                  }}
+                >
+                  <Icon
+                    name="envelope"
+                    size={20}
+                    color={BaseColor.coklat_pkbw}
+                    style={{ marginHorizontal: 10 }}
+                  />
+                  <Text
+                    body2
+                    style={{
+                      fontSize: 13,
+                      textAlign: "justify",
+                      paddingRight: 15,
+                      paddingTop: 5,
+                    }}
+                  >
+                    {item.contact_email}
+                  </Text>
+                </View>
+              );
+            })}
+
+            {dataAboutUs.map((item, index) => {
+              return (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignSelf: "center",
+                  }}
+                >
+                  <Icon
+                    name="phone"
+                    size={20}
+                    color={BaseColor.coklat_pkbw}
+                    style={{ marginHorizontal: 10 }}
+                  />
+                  <Text
+                    body2
+                    style={{
+                      fontSize: 13,
+                      textAlign: "justify",
+                      paddingRight: 15,
+                      paddingTop: 5,
+                    }}
+                  >
+                    {item.contact_no}
+                  </Text>
+                </View>
+              );
+            })}
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
   );
-};
+}
 
 export default AboutUs;
